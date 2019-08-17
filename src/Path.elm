@@ -1,4 +1,8 @@
-module Path exposing (Path(..), Point, getCoordinate, getLength)
+module Path exposing (Distance, Path(..), Point, getCoordinate, getLength)
+
+
+type alias Distance =
+    Float
 
 
 type alias Point =
