@@ -1,6 +1,7 @@
 {
   "scripts": {
-  	"start": "elm-live -- src/Main.elm --output=build/main.js"
+  	"start": "elm-live -- src/Main.elm --output=build/main.js",
+  	"green-blob": "ffmpeg -r 15 -i assets/Green_blob/Green_Blob_000%02d.png -plays 0 assets/green-blob.apng"
   },
   "devDependencies": {
     "elm-live": "^3.4.1"
