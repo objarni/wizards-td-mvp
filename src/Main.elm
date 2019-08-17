@@ -2,6 +2,9 @@ module Main exposing (main)
 
 import Browser exposing (element)
 import Html exposing (text)
+import TypedSvg exposing (..)
+import TypedSvg.Attributes exposing (..)
+import TypedSvg.Types exposing (..)
 
 
 main =
@@ -26,4 +29,15 @@ update msg model =
 
 
 view _ =
-    text "hello world!"
+    svg
+        [ viewBox 0 0 1081 1081
+        , width <| num 1081
+        , height <| num 1081
+        ]
+        [ image
+            [ xlinkHref "assets/background.png"
+            , width <| px 1081
+            , height <| px 1081
+            ]
+            []
+        ]
