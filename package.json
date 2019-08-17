@@ -1,0 +1,8 @@
+{
+  "scripts": {
+  	"start": "elm-live -- src/Main.elm --output=build/main.js"
+  },
+  "devDependencies": {
+    "elm-live": "^3.4.1"
+  }
+}
