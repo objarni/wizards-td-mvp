@@ -40,4 +40,12 @@ view _ =
             , height <| px 1081
             ]
             []
+        , image
+            [ xlinkHref "assets/green-blob.apng"
+            , width <| px 70
+            , height <| px 110
+            , x <| px 200
+            , y <| px 500
+            ]
+            []
         ]
