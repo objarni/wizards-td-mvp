@@ -1,41 +1,9 @@
-module Path exposing (suite)
+module TestPath exposing (suite)
 
 import Expect exposing (Expectation, FloatingPointTolerance(..))
 import Fuzz exposing (Fuzzer, int, list, string)
+import Path exposing (..)
 import Test exposing (..)
-
-
-type alias Point =
-    ( Float, Float )
-
-
-type Path
-    = Line Point Point
-
-
-getLength (Line ( startX, startY ) ( endX, endY )) =
-    let
-        dx =
-            endX - startX
-
-        dy =
-            endY - startY
-    in
-    sqrt (dx ^ 2 + dy ^ 2)
-
-
-interpolate start end fraction =
-    start + fraction * (end - start)
-
-
-getCoordinate ((Line ( startX, startY ) ( endX, endY )) as path) distance =
-    let
-        fraction =
-            distance / getLength path
-    in
-    ( interpolate startX endX fraction
-    , interpolate startY endY fraction
-    )
 
 
 verticalLine length =
@@ -52,7 +20,7 @@ diagonalLine x y =
 
 suite : Test
 suite =
-    concat
+    describe "Path"
         [ describe "getCoordinate"
             [ test "starts at startpoint" <|
                 let
