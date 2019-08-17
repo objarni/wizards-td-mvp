@@ -1,4 +1,4 @@
-module Example exposing (suite)
+module Path exposing (suite)
 
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
@@ -24,7 +24,7 @@ getCoordinate (Line start end) a =
 
 suite : Test
 suite =
-    describe "Path"
+    describe "getCoordinate"
         [ test "starts at startpoint" <|
             let
                 path =
