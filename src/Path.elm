@@ -56,8 +56,8 @@ getCoordinate (Path segment points) distance =
             , interpolate startY endY fraction
             )
 
-        ( point :: _, _ ) ->
-            getCoordinate (Path (Segment end point) []) (distance - segmentLength)
+        ( point :: rest, _ ) ->
+            getCoordinate (Path (Segment end point) rest) (distance - segmentLength)
 
         ( _, _ ) ->
             end
