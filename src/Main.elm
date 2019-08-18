@@ -18,7 +18,7 @@ main =
 
 
 init () =
-    ( Creep (Line ( 0, 840 ) ( 130, 758 )) 0, Cmd.none )
+    ( Creep (Segment ( 0, 840 ) ( 130, 758 )) 0, Cmd.none )
 
 
 type Msg
@@ -34,7 +34,7 @@ update (Tick delta) (Creep path distance) =
 
 
 type Creep
-    = Creep Path Distance
+    = Creep Segment Distance
 
 
 view (Creep path distance) =

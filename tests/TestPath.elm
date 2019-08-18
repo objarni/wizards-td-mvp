@@ -6,15 +6,15 @@ import Test exposing (..)
 
 
 verticalLine length =
-    Line ( 0, 0 ) ( 0, length )
+    Segment ( 0, 0 ) ( 0, length )
 
 
 horisontalLine length =
-    Line ( 0, 0 ) ( length, 0 )
+    Segment ( 0, 0 ) ( length, 0 )
 
 
 diagonalLine x y =
-    Line ( 0, 0 ) ( x, y )
+    Segment ( 0, 0 ) ( x, y )
 
 
 suite : Test
@@ -24,15 +24,23 @@ suite =
             [ test "starts at startpoint" <|
                 let
                     path =
-                        Line ( 0, 0 ) ( 100, 150 )
+                        Segment ( 0, 0 ) ( 100, 150 )
                 in
                 \() -> getCoordinate path 0 |> Expect.equal ( 0, 0 )
             , test "ends at endpoint" <|
                 let
                     path =
-                        Line ( 0, 0 ) ( 100, 0 )
+                        Segment ( 0, 0 ) ( 100, 0 )
                 in
                 \() -> getCoordinate path 100 |> Expect.equal ( 100, 0 )
+
+            {- ,  test "point at second segment" <|
+               let
+                   path =
+                       Segment ( 0, 0 ) ( 100, 0 ) [ ( 100, 100 ) ]
+               in
+               \() -> getCoordinate path 150 |> Expect.equal ( 100, 50 )
+            -}
             , test "midpoint is in between" <|
                 \() -> getCoordinate (verticalLine 100) 50 |> Expect.equal ( 0, 50 )
             ]
@@ -44,6 +52,6 @@ suite =
             , test "length of diagonal line" <|
                 \() -> getLength (diagonalLine 3 4) |> Expect.equal 5
             , test "length of line not starting in origo" <|
-                \() -> getLength (Line ( 1, 1 ) ( 4, 5 )) |> Expect.within (Absolute 0.1) 5
+                \() -> getLength (Segment ( 1, 1 ) ( 4, 5 )) |> Expect.within (Absolute 0.1) 5
             ]
         ]
