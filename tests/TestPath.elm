@@ -1,7 +1,6 @@
 module TestPath exposing (suite)
 
 import Expect exposing (Expectation, FloatingPointTolerance(..))
-import Fuzz exposing (Fuzzer, int, list, string)
 import Path exposing (..)
 import Test exposing (..)
 
