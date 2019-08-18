@@ -22,7 +22,11 @@ init () =
         path =
             Path
                 (Segment ( 0, 840 ) ( 130, 758 ))
-                []
+                [ ( 430, 280 )
+                , ( 610, 270 )
+                , ( 900, 640 )
+                , ( 1081, 770 )
+                ]
     in
     ( Creep path 0
     , Cmd.none
@@ -38,7 +42,7 @@ subscriptions _ =
 
 
 update (Tick delta) (Creep path distance) =
-    ( Creep path (distance + delta / 100), Cmd.none )
+    ( Creep path (distance + delta / 20), Cmd.none )
 
 
 type Creep
