@@ -25,7 +25,7 @@ type Msg
     = Tick Float
 
 
-subscriptions model =
+subscriptions _ =
     onAnimationFrameDelta Tick
 
 
