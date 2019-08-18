@@ -43,6 +43,8 @@ suite =
                 \() -> getCoordinate multiSegmentPath 150 |> Expect.equal ( 100, 50 )
             , test "midpoint is in between" <|
                 \() -> getCoordinate (Path (verticalLine 100) []) 50 |> Expect.equal ( 0, 50 )
+            , test "point beyond endpoint is endpoint" <|
+                \() -> getCoordinate (Path (verticalLine 100) []) 101 |> Expect.equal ( 0, 100 )
             ]
         , describe "getLength"
             [ test "length of vertical line" <|
