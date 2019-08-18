@@ -17,6 +17,10 @@ diagonalLine x y =
     Segment ( 0, 0 ) ( x, y )
 
 
+multiSegmentPath =
+    Path (Segment ( 0, 0 ) ( 100, 0 )) [ ( 100, 100 ) ]
+
+
 suite : Test
 suite =
     describe "Path"
@@ -33,14 +37,10 @@ suite =
                         Path (Segment ( 0, 0 ) ( 100, 0 )) []
                 in
                 \() -> getCoordinate path 100 |> Expect.equal ( 100, 0 )
-
-            {- ,  test "point at second segment" <|
-               let
-                   path =
-                       Segment ( 0, 0 ) ( 100, 0 ) [ ( 100, 100 ) ]
-               in
-               \() -> getCoordinate path 150 |> Expect.equal ( 100, 50 )
-            -}
+            , test "point at first segment in multi segment path" <|
+                \() -> getCoordinate multiSegmentPath 50 |> Expect.equal ( 50, 0 )
+            , test "point at second segment in multi segment path" <|
+                \() -> getCoordinate multiSegmentPath 150 |> Expect.equal ( 100, 50 )
             , test "midpoint is in between" <|
                 \() -> getCoordinate (Path (verticalLine 100) []) 50 |> Expect.equal ( 0, 50 )
             ]

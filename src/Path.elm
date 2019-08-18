@@ -1,5 +1,7 @@
 module Path exposing (Distance, Path(..), Segment(..), getCoordinate, getLength)
 
+import Debug exposing (todo)
+
 
 type alias Distance =
     Float
@@ -32,11 +34,23 @@ interpolate start end fraction =
     start + fraction * (end - start)
 
 
-getCoordinate (Path ((Segment ( startX, startY ) ( endX, endY )) as path) _) distance =
+getCoordinate (Path ((Segment ( startX, startY ) (( endX, endY ) as end)) as segment) points) distance =
     let
-        fraction =
-            distance / getLength path
+        segmentLength =
+            getLength segment
     in
-    ( interpolate startX endX fraction
-    , interpolate startY endY fraction
-    )
+    case ( points, segmentLength >= distance ) of
+        ( _, True ) ->
+            let
+                fraction =
+                    distance / segmentLength
+            in
+            ( interpolate startX endX fraction
+            , interpolate startY endY fraction
+            )
+
+        ( point :: _, _ ) ->
+            getCoordinate (Path (Segment end point) []) (distance - segmentLength)
+
+        ( _, _ ) ->
+            todo "hmm"
