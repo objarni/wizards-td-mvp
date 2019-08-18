@@ -18,7 +18,15 @@ main =
 
 
 init () =
-    ( Creep (Segment ( 0, 840 ) ( 130, 758 )) 0, Cmd.none )
+    let
+        path =
+            Path
+                (Segment ( 0, 840 ) ( 130, 758 ))
+                []
+    in
+    ( Creep path 0
+    , Cmd.none
+    )
 
 
 type Msg
@@ -34,7 +42,7 @@ update (Tick delta) (Creep path distance) =
 
 
 type Creep
-    = Creep Segment Distance
+    = Creep Path Distance
 
 
 view (Creep path distance) =
