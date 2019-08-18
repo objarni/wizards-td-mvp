@@ -1,4 +1,4 @@
-module Path exposing (Distance, Segment(..), getCoordinate, getLength)
+module Path exposing (Distance, Path(..), Segment(..), getCoordinate, getLength)
 
 
 type alias Distance =
@@ -11,6 +11,10 @@ type alias Point =
 
 type Segment
     = Segment Point Point
+
+
+type Path
+    = Path Segment (List Point)
 
 
 getLength (Segment ( startX, startY ) ( endX, endY )) =
@@ -28,7 +32,7 @@ interpolate start end fraction =
     start + fraction * (end - start)
 
 
-getCoordinate ((Segment ( startX, startY ) ( endX, endY )) as path) distance =
+getCoordinate (Path ((Segment ( startX, startY ) ( endX, endY )) as path) _) distance =
     let
         fraction =
             distance / getLength path
