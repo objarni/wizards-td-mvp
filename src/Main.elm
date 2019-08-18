@@ -18,7 +18,7 @@ main =
 
 
 init () =
-    ( Creep (Line ( 0, 0 ) ( 1081, 1081 )) 0, Cmd.none )
+    ( Creep (Line ( 0, 840 ) ( 130, 758 )) 0, Cmd.none )
 
 
 type Msg
@@ -57,8 +57,8 @@ view (Creep path distance) =
             [ Attributes.xlinkHref "assets/green-blob.apng"
             , Attributes.width <| px 70
             , Attributes.height <| px 110
-            , Attributes.x <| px x
-            , Attributes.y <| px y
+            , Attributes.x <| px (x - 70 / 2)
+            , Attributes.y <| px (y - 110)
             ]
             []
         ]
