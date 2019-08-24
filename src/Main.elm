@@ -49,6 +49,17 @@ type Creep
     = Creep Path Distance
 
 
+viewBlob x y =
+    image
+        [ Attributes.xlinkHref "assets/green-blob.apng"
+        , Attributes.width <| px 70
+        , Attributes.height <| px 110
+        , Attributes.x <| px (x - 70 / 2)
+        , Attributes.y <| px (y - 110)
+        ]
+        []
+
+
 view (Creep path distance) =
     let
         ( x, y ) =
@@ -65,12 +76,5 @@ view (Creep path distance) =
             , Attributes.height <| px 1081
             ]
             []
-        , image
-            [ Attributes.xlinkHref "assets/green-blob.apng"
-            , Attributes.width <| px 70
-            , Attributes.height <| px 110
-            , Attributes.x <| px (x - 70 / 2)
-            , Attributes.y <| px (y - 110)
-            ]
-            []
+        , viewBlob x y
         ]
