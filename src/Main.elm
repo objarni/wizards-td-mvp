@@ -72,6 +72,24 @@ type Creep
     = Creep Path Distance
 
 
+background =
+    image
+        [ Attributes.xlinkHref "assets/background.png"
+        , Attributes.width <| px 1081
+        , Attributes.height <| px 1081
+        ]
+        []
+
+
+foreground =
+    image
+        [ Attributes.xlinkHref "assets/foreground.png"
+        , Attributes.width <| px 1081
+        , Attributes.height <| px 1081
+        ]
+        []
+
+
 viewBlob x y =
     image
         [ Attributes.xlinkHref "assets/green-blob.apng"
@@ -126,19 +144,15 @@ view { creep, wizard } =
         , Attributes.width <| num 1081
         , Attributes.height <| num 1081
         ]
-        ([ image
-            [ Attributes.xlinkHref "assets/background.png"
-            , Attributes.width <| px 1081
-            , Attributes.height <| px 1081
-            ]
-            []
+        ([ background
          , viewBlob x y
          ]
             ++ (if wizard then
-                    [ viewDruid 500 385 ]
+                    [ viewDruid 500 395 ]
 
                 else
                     []
                )
+            ++ [ foreground ]
             ++ gui
         )
