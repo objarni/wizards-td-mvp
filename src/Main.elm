@@ -28,8 +28,11 @@ init () =
                 , ( 900, 640 )
                 , ( 1081, 770 )
                 ]
+
+        creep =
+            Creep path 0
     in
-    ( Creep path 0
+    ( creep
     , Cmd.none
     )
 
@@ -43,13 +46,23 @@ subscriptions _ =
     onAnimationFrameDelta Tick
 
 
-update msg (Creep path distance) =
-    case msg of
-        Tick delta ->
-            ( Creep path (distance + delta / 20), Cmd.none )
+update msg creep =
+    let
+        (Creep path distance) =
+            creep
 
-        HireWizard ->
-            ( Creep path (distance - 20), Cmd.none )
+        nextModel =
+            nextCreep
+
+        nextCreep =
+            case msg of
+                Tick delta ->
+                    Creep path (distance + delta / 20)
+
+                HireWizard ->
+                    Creep path (distance - 20)
+    in
+    ( nextModel, Cmd.none )
 
 
 type Creep
@@ -79,8 +92,11 @@ viewTower x y =
         []
 
 
-view (Creep path distance) =
+view creep =
     let
+        (Creep path distance) =
+            creep
+
         ( x, y ) =
             getCoordinate path distance
     in
