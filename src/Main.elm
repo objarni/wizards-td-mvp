@@ -49,7 +49,7 @@ update msg { creep } =
         (Creep path distance) =
             creep
 
-        nextModel =
+        nextCreep =
             case msg of
                 Tick delta ->
                     Creep path (distance + delta / 20)
@@ -57,7 +57,7 @@ update msg { creep } =
                 HireWizard ->
                     Creep path (distance - 20)
     in
-    ( { creep = nextModel }, Cmd.none )
+    ( { creep = nextCreep }, Cmd.none )
 
 
 type Creep
