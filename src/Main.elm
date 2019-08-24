@@ -116,15 +116,13 @@ druidView x y =
 clickableOverlay towerPos =
     let
         ( x, y ) =
-            case towerPos of
-                _ ->
-                    ( 465, 345 )
+            towerCordinate towerPos
     in
     rect
         [ Attributes.width <| px 100
         , Attributes.height <| px 150
-        , Attributes.x <| px x
-        , Attributes.y <| px y
+        , Attributes.x <| px (x - 50)
+        , Attributes.y <| px (y - 100)
         , Attributes.fillOpacity <| Opacity 0.2
         , Events.onClick <| HireWizard
         ]
