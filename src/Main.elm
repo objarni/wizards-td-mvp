@@ -133,7 +133,12 @@ view { creep, wizard } =
             ]
             []
          , viewBlob x y
-         , viewDruid x y
          ]
+            ++ (if wizard then
+                    [ viewDruid 500 385 ]
+
+                else
+                    []
+               )
             ++ gui
         )
