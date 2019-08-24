@@ -5,6 +5,7 @@ import Browser.Events exposing (onAnimationFrameDelta)
 import Path exposing (..)
 import TypedSvg exposing (..)
 import TypedSvg.Attributes as Attributes
+import TypedSvg.Events as Events
 import TypedSvg.Types exposing (..)
 
 
@@ -35,14 +36,20 @@ init () =
 
 type Msg
     = Tick Float
+    | HireWizard
 
 
 subscriptions _ =
     onAnimationFrameDelta Tick
 
 
-update (Tick delta) (Creep path distance) =
-    ( Creep path (distance + delta / 20), Cmd.none )
+update msg (Creep path distance) =
+    case msg of
+        Tick delta ->
+            ( Creep path (distance + delta / 20), Cmd.none )
+
+        HireWizard ->
+            ( Creep path (distance - 20), Cmd.none )
 
 
 type Creep
@@ -56,6 +63,18 @@ viewBlob x y =
         , Attributes.height <| px 110
         , Attributes.x <| px (x - 70 / 2)
         , Attributes.y <| px (y - 110)
+        ]
+        []
+
+
+viewTower x y =
+    rect
+        [ Attributes.width <| px 100
+        , Attributes.height <| px 150
+        , Attributes.x <| px x
+        , Attributes.y <| px y
+        , Attributes.fillOpacity <| Opacity 0.5
+        , Events.onClick <| HireWizard
         ]
         []
 
@@ -77,4 +96,5 @@ view (Creep path distance) =
             ]
             []
         , viewBlob x y
+        , viewTower 465 345
         ]
