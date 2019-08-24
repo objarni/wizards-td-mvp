@@ -32,7 +32,7 @@ init () =
         creep =
             Creep path 0
     in
-    ( { creep = creep }, Cmd.none )
+    ( { creep = creep, wizard = False }, Cmd.none )
 
 
 type Msg
@@ -55,9 +55,17 @@ update msg model =
                     Creep path (distance + delta / 20)
 
                 HireWizard ->
-                    Creep path (distance - 20)
+                    model.creep
+
+        nextWizard =
+            case msg of
+                Tick _ ->
+                    model.wizard
+
+                HireWizard ->
+                    True
     in
-    ( { model | creep = nextCreep }, Cmd.none )
+    ( { model | creep = nextCreep, wizard = nextWizard }, Cmd.none )
 
 
 type Creep
@@ -75,7 +83,18 @@ viewBlob x y =
         []
 
 
-viewTower x y =
+viewDruid x y =
+    image
+        [ Attributes.xlinkHref "assets/druid.png"
+        , Attributes.width <| px 111
+        , Attributes.height <| px 122
+        , Attributes.x <| px (x - 111 / 2)
+        , Attributes.y <| px (y - 122)
+        ]
+        []
+
+
+viewGui x y =
     rect
         [ Attributes.width <| px 100
         , Attributes.height <| px 150
@@ -87,33 +106,34 @@ viewTower x y =
         []
 
 
-view { creep } =
+view { creep, wizard } =
     let
         (Creep path distance) =
             creep
 
         ( x, y ) =
             getCoordinate path distance
+
+        gui =
+            if wizard then
+                []
+
+            else
+                [ viewGui 465 345 ]
     in
     svg
         [ Attributes.viewBox 0 0 1081 1081
         , Attributes.width <| num 1081
         , Attributes.height <| num 1081
         ]
-        [ image
+        ([ image
             [ Attributes.xlinkHref "assets/background.png"
             , Attributes.width <| px 1081
             , Attributes.height <| px 1081
             ]
             []
-        , viewBlob x y
-        , viewTower 465 345
-        , image
-            [ Attributes.xlinkHref "assets/druid.png"
-            , Attributes.width <| px 111
-            , Attributes.height <| px 122
-            , Attributes.x <| px (x - 111 / 2)
-            , Attributes.y <| px (y - 122)
-            ]
-            []
-        ]
+         , viewBlob x y
+         , viewDruid x y
+         ]
+            ++ gui
+        )
