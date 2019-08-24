@@ -124,24 +124,20 @@ clickableOverlay x y =
         []
 
 
+creepsView creeps =
+    let
+        creepView (Creep path distance) =
+            let
+                ( x, y ) =
+                    getCoordinate path distance
+            in
+            blobView x y
+    in
+    List.map creepView creeps
+
+
 view { creep, wizard } =
     let
-        (Creep path distance) =
-            creep
-
-        ( x, y ) =
-            getCoordinate path distance
-
-        gui =
-            if wizard then
-                []
-
-            else
-                [ clickableOverlay 465 345 ]
-
-        blob =
-            blobView x y
-
         wizards =
             if wizard then
                 [ druidView 500 395 ]
@@ -150,7 +146,14 @@ view { creep, wizard } =
                 []
 
         creeps =
-            [ blob ]
+            creepsView [ creep ]
+
+        gui =
+            if wizard then
+                []
+
+            else
+                [ clickableOverlay 465 345 ]
     in
     svg
         [ Attributes.viewBox 0 0 1081 1081
@@ -158,8 +161,8 @@ view { creep, wizard } =
         , Attributes.height <| num 1081
         ]
         ([ background ]
-            ++ creeps
             ++ wizards
+            ++ creeps
             ++ [ foreground ]
             ++ gui
         )
