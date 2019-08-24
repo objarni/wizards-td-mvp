@@ -2,6 +2,7 @@ module Main exposing (main)
 
 import Browser exposing (element)
 import Browser.Events exposing (onAnimationFrameDelta)
+import Color as Color
 import Path exposing (..)
 import TypedSvg exposing (..)
 import TypedSvg.Attributes as Attributes
@@ -112,7 +113,13 @@ druidView x y =
         []
 
 
-clickableOverlay x y =
+clickableOverlay towerPos =
+    let
+        ( x, y ) =
+            case towerPos of
+                _ ->
+                    ( 465, 345 )
+    in
     rect
         [ Attributes.width <| px 100
         , Attributes.height <| px 150
@@ -146,7 +153,9 @@ wizardsView wizards =
 
 type TowerPos
     = North
-    | South
+    | Center
+    | West
+    | East
 
 
 view { creep, wizard } =
@@ -154,7 +163,7 @@ view { creep, wizard } =
         wizards =
             wizardsView
                 (if wizard then
-                    [ South ]
+                    [ Center ]
 
                  else
                     []
@@ -168,7 +177,7 @@ view { creep, wizard } =
                 []
 
             else
-                [ clickableOverlay 465 345 ]
+                [ clickableOverlay Center ]
     in
     svg
         [ Attributes.viewBox 0 0 1081 1081
@@ -180,4 +189,22 @@ view { creep, wizard } =
             ++ creeps
             ++ [ foreground ]
             ++ gui
+            ++ [ let
+                    ( cx, cy ) =
+                        towerCordinate Center
+                 in
+                 circle
+                    [ Attributes.r <| px 10
+                    , Attributes.cx <| px cx
+                    , Attributes.cy <| px cy
+                    , Attributes.fill <| Fill Color.red
+                    ]
+                    []
+               ]
         )
+
+
+towerCordinate towerPos =
+    case towerPos of
+        _ ->
+            ( 514, 450 )
