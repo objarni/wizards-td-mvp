@@ -191,7 +191,7 @@ view { creep, wizard } =
             ++ gui
             ++ [ let
                     ( cx, cy ) =
-                        towerCordinate Center
+                        towerCordinate North
                  in
                  circle
                     [ Attributes.r <| px 10
@@ -206,5 +206,14 @@ view { creep, wizard } =
 
 towerCordinate towerPos =
     case towerPos of
-        _ ->
+        Center ->
             ( 514, 450 )
+
+        West ->
+            ( 130, 500 )
+
+        East ->
+            ( 955, 540 )
+
+        North ->
+            ( 670, 140 )
