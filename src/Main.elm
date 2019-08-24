@@ -44,10 +44,10 @@ subscriptions _ =
     onAnimationFrameDelta Tick
 
 
-update msg { creep } =
+update msg model =
     let
         (Creep path distance) =
-            creep
+            model.creep
 
         nextCreep =
             case msg of
@@ -57,7 +57,7 @@ update msg { creep } =
                 HireWizard ->
                     Creep path (distance - 20)
     in
-    ( { creep = nextCreep }, Cmd.none )
+    ( { model | creep = nextCreep }, Cmd.none )
 
 
 type Creep
