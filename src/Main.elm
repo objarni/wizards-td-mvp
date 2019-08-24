@@ -118,7 +118,7 @@ viewGui x y =
         , Attributes.height <| px 150
         , Attributes.x <| px x
         , Attributes.y <| px y
-        , Attributes.fillOpacity <| Opacity 0.5
+        , Attributes.fillOpacity <| Opacity 0.2
         , Events.onClick <| HireWizard
         ]
         []
