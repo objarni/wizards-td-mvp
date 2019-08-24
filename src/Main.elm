@@ -138,21 +138,28 @@ view { creep, wizard } =
 
             else
                 [ clickableOverlay 465 345 ]
+
+        blob =
+            blobView x y
+
+        wizards =
+            if wizard then
+                [ druidView 500 395 ]
+
+            else
+                []
+
+        creeps =
+            [ blob ]
     in
     svg
         [ Attributes.viewBox 0 0 1081 1081
         , Attributes.width <| num 1081
         , Attributes.height <| num 1081
         ]
-        ([ background
-         , blobView x y
-         ]
-            ++ (if wizard then
-                    [ druidView 500 395 ]
-
-                else
-                    []
-               )
+        ([ background ]
+            ++ creeps
+            ++ wizards
             ++ [ foreground ]
             ++ gui
         )
