@@ -97,4 +97,12 @@ view (Creep path distance) =
             []
         , viewBlob x y
         , viewTower 465 345
+        , image
+            [ Attributes.xlinkHref "assets/druid.png"
+            , Attributes.width <| px 111
+            , Attributes.height <| px 122
+            , Attributes.x <| px (x - 111 / 2)
+            , Attributes.y <| px (y - 122)
+            ]
+            []
         ]
