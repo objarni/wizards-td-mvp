@@ -90,7 +90,7 @@ foreground =
         []
 
 
-viewBlob x y =
+blobView x y =
     image
         [ Attributes.xlinkHref "assets/green-blob.apng"
         , Attributes.width <| px 70
@@ -101,7 +101,7 @@ viewBlob x y =
         []
 
 
-viewDruid x y =
+druidView x y =
     image
         [ Attributes.xlinkHref "assets/druid.png"
         , Attributes.width <| px 111
@@ -112,7 +112,7 @@ viewDruid x y =
         []
 
 
-viewGui x y =
+clickableOverlay x y =
     rect
         [ Attributes.width <| px 100
         , Attributes.height <| px 150
@@ -137,7 +137,7 @@ view { creep, wizard } =
                 []
 
             else
-                [ viewGui 465 345 ]
+                [ clickableOverlay 465 345 ]
     in
     svg
         [ Attributes.viewBox 0 0 1081 1081
@@ -145,10 +145,10 @@ view { creep, wizard } =
         , Attributes.height <| num 1081
         ]
         ([ background
-         , viewBlob x y
+         , blobView x y
          ]
             ++ (if wizard then
-                    [ viewDruid 500 395 ]
+                    [ druidView 500 395 ]
 
                 else
                     []
