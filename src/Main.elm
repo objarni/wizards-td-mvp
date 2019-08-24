@@ -32,9 +32,7 @@ init () =
         creep =
             Creep path 0
     in
-    ( creep
-    , Cmd.none
-    )
+    ( { creep = creep }, Cmd.none )
 
 
 type Msg
@@ -46,15 +44,12 @@ subscriptions _ =
     onAnimationFrameDelta Tick
 
 
-update msg creep =
+update msg { creep } =
     let
         (Creep path distance) =
             creep
 
         nextModel =
-            nextCreep
-
-        nextCreep =
             case msg of
                 Tick delta ->
                     Creep path (distance + delta / 20)
@@ -62,7 +57,7 @@ update msg creep =
                 HireWizard ->
                     Creep path (distance - 20)
     in
-    ( nextModel, Cmd.none )
+    ( { creep = nextModel }, Cmd.none )
 
 
 type Creep
@@ -92,7 +87,7 @@ viewTower x y =
         []
 
 
-view creep =
+view { creep } =
     let
         (Creep path distance) =
             creep
