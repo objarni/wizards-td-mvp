@@ -189,18 +189,6 @@ view { creep, wizard } =
             ++ creeps
             ++ [ foreground ]
             ++ gui
-            ++ [ let
-                    ( cx, cy ) =
-                        towerCordinate North
-                 in
-                 circle
-                    [ Attributes.r <| px 10
-                    , Attributes.cx <| px cx
-                    , Attributes.cy <| px cy
-                    , Attributes.fill <| Fill Color.red
-                    ]
-                    []
-               ]
         )
 
 
