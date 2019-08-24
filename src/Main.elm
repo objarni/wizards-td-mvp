@@ -136,14 +136,29 @@ creepsView creeps =
     List.map creepView creeps
 
 
+wizardsView wizards =
+    let
+        wizardView _ =
+            druidView 500 395
+    in
+    List.map wizardView wizards
+
+
+type TowerPos
+    = North
+    | South
+
+
 view { creep, wizard } =
     let
         wizards =
-            if wizard then
-                [ druidView 500 395 ]
+            wizardsView
+                (if wizard then
+                    [ South ]
 
-            else
-                []
+                 else
+                    []
+                )
 
         creeps =
             creepsView [ creep ]
