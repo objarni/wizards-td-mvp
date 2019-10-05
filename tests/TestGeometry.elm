@@ -1,7 +1,7 @@
-module TestPath exposing (suite)
+module TestGeometry exposing (suite)
 
 import Expect exposing (Expectation, FloatingPointTolerance(..))
-import Path exposing (..)
+import Geometry exposing (..)
 import Test exposing (..)
 
 

@@ -1,4 +1,4 @@
-module Path exposing (Distance, Path(..), Segment(..), getCoordinate, getLength)
+module Geometry exposing (Distance, Path(..), Segment(..), getCoordinate, getLength)
 
 
 type alias Distance =

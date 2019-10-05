@@ -2,10 +2,10 @@ module Main exposing (main)
 
 import Browser exposing (element)
 import Browser.Events exposing (onAnimationFrameDelta)
+import Geometry exposing (..)
 import Html exposing (div, text)
 import Html.Attributes
 import Html.Events exposing (onClick)
-import Path exposing (..)
 import TypedSvg exposing (..)
 import TypedSvg.Attributes as Attributes
 import TypedSvg.Events as Events
