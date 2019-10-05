@@ -54,8 +54,13 @@ type Msg
     | StartScreenClick
 
 
-subscriptions _ =
-    onAnimationFrameDelta Tick
+subscriptions model =
+    case model of
+        StartScreen ->
+            Sub.none
+
+        GameScreen _ ->
+            onAnimationFrameDelta Tick
 
 
 update msg m =
@@ -85,14 +90,11 @@ update msg m =
 
         StartScreen ->
             case msg of
-                Tick _ ->
-                    ( m, Cmd.none )
-
-                HireWizard ->
-                    ( m, Cmd.none )
-
                 StartScreenClick ->
                     level1
+
+                _ ->
+                    ( m, Cmd.none )
 
 
 type Creep
