@@ -2,8 +2,9 @@ module Main exposing (main)
 
 import Browser exposing (element)
 import Browser.Events exposing (onAnimationFrameDelta)
-import Color as Color
-import Html exposing (text)
+import Html exposing (div, text)
+import Html.Attributes
+import Html.Events exposing (onClick)
 import Path exposing (..)
 import TypedSvg exposing (..)
 import TypedSvg.Attributes as Attributes
@@ -25,7 +26,7 @@ init () =
     ( StartScreen, Cmd.none )
 
 
-level1 () =
+level1 =
     let
         path =
             Path
@@ -50,6 +51,7 @@ type Model a
 type Msg
     = Tick Float
     | HireWizard
+    | StartScreenClick
 
 
 subscriptions _ =
@@ -68,21 +70,29 @@ update msg m =
                         Tick delta ->
                             Creep path (distance + delta / 20)
 
-                        HireWizard ->
+                        _ ->
                             model.creep
 
                 nextWizard =
                     case msg of
-                        Tick _ ->
-                            model.wizard
-
                         HireWizard ->
                             True
+
+                        _ ->
+                            model.wizard
             in
             ( GameScreen { model | creep = nextCreep, wizard = nextWizard }, Cmd.none )
 
         StartScreen ->
-            ( m, Cmd.none )
+            case msg of
+                Tick _ ->
+                    ( m, Cmd.none )
+
+                HireWizard ->
+                    ( m, Cmd.none )
+
+                StartScreenClick ->
+                    level1
 
 
 type Creep
@@ -132,7 +142,7 @@ druidView x y =
 clickableOverlay towerPos =
     let
         ( x, y ) =
-            towerCordinate towerPos
+            towerCoordinate towerPos
     in
     rect
         [ Attributes.width <| px 100
@@ -208,10 +218,16 @@ view model =
                 )
 
         StartScreen ->
-            text "hej"
+            div
+                [ Html.Attributes.style "margin" "auto"
+                , Html.Attributes.style "width" "15em"
+                , Html.Attributes.style "text-align" "center"
+                , onClick StartScreenClick
+                ]
+                [ text "Click to Start!" ]
 
 
-towerCordinate towerPos =
+towerCoordinate towerPos =
     case towerPos of
         Center ->
             ( 514, 450 )
