@@ -3,6 +3,7 @@ module Main exposing (main)
 import Browser exposing (element)
 import Browser.Events exposing (onAnimationFrameDelta)
 import Color as Color
+import Html exposing (text)
 import Path exposing (..)
 import TypedSvg exposing (..)
 import TypedSvg.Attributes as Attributes
@@ -19,7 +20,12 @@ main =
         }
 
 
+init : () -> ( Model { creep : Creep, wizard : Bool }, Cmd Msg )
 init () =
+    ( StartScreen, Cmd.none )
+
+
+level1 () =
     let
         path =
             Path
@@ -33,7 +39,12 @@ init () =
         creep =
             Creep path 0
     in
-    ( { creep = creep, wizard = False }, Cmd.none )
+    ( GameScreen { creep = creep, wizard = False }, Cmd.none )
+
+
+type Model a
+    = StartScreen
+    | GameScreen a
 
 
 type Msg
@@ -45,28 +56,33 @@ subscriptions _ =
     onAnimationFrameDelta Tick
 
 
-update msg model =
-    let
-        (Creep path distance) =
-            model.creep
-
-        nextCreep =
-            case msg of
-                Tick delta ->
-                    Creep path (distance + delta / 20)
-
-                HireWizard ->
+update msg m =
+    case m of
+        GameScreen model ->
+            let
+                (Creep path distance) =
                     model.creep
 
-        nextWizard =
-            case msg of
-                Tick _ ->
-                    model.wizard
+                nextCreep =
+                    case msg of
+                        Tick delta ->
+                            Creep path (distance + delta / 20)
 
-                HireWizard ->
-                    True
-    in
-    ( { model | creep = nextCreep, wizard = nextWizard }, Cmd.none )
+                        HireWizard ->
+                            model.creep
+
+                nextWizard =
+                    case msg of
+                        Tick _ ->
+                            model.wizard
+
+                        HireWizard ->
+                            True
+            in
+            ( GameScreen { model | creep = nextCreep, wizard = nextWizard }, Cmd.none )
+
+        StartScreen ->
+            ( m, Cmd.none )
 
 
 type Creep
@@ -156,38 +172,43 @@ type TowerPos
     | East
 
 
-view { creep, wizard } =
-    let
-        wizards =
-            wizardsView
-                (if wizard then
-                    [ Center ]
+view model =
+    case model of
+        GameScreen { creep, wizard } ->
+            let
+                wizards =
+                    wizardsView
+                        (if wizard then
+                            [ Center ]
 
-                 else
-                    []
+                         else
+                            []
+                        )
+
+                creeps =
+                    creepsView [ creep ]
+
+                gui =
+                    if wizard then
+                        []
+
+                    else
+                        [ clickableOverlay Center ]
+            in
+            svg
+                [ Attributes.viewBox 0 0 1081 1081
+                , Attributes.width <| num 1081
+                , Attributes.height <| num 1081
+                ]
+                ([ background ]
+                    ++ wizards
+                    ++ creeps
+                    ++ [ foreground ]
+                    ++ gui
                 )
 
-        creeps =
-            creepsView [ creep ]
-
-        gui =
-            if wizard then
-                []
-
-            else
-                [ clickableOverlay Center ]
-    in
-    svg
-        [ Attributes.viewBox 0 0 1081 1081
-        , Attributes.width <| num 1081
-        , Attributes.height <| num 1081
-        ]
-        ([ background ]
-            ++ wizards
-            ++ creeps
-            ++ [ foreground ]
-            ++ gui
-        )
+        StartScreen ->
+            text "hej"
 
 
 towerCordinate towerPos =
