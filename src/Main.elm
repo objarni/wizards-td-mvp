@@ -66,27 +66,7 @@ subscriptions model =
 update msg m =
     case m of
         GameScreen model ->
-            let
-                (Creep path distance) =
-                    model.creep
-
-                nextCreep =
-                    case msg of
-                        Tick delta ->
-                            Creep path (distance + delta / 20)
-
-                        _ ->
-                            model.creep
-
-                nextWizard =
-                    case msg of
-                        HireWizard ->
-                            True
-
-                        _ ->
-                            model.wizard
-            in
-            ( GameScreen { model | creep = nextCreep, wizard = nextWizard }, Cmd.none )
+            updateGameScreen msg model
 
         StartScreen ->
             case msg of
@@ -95,6 +75,30 @@ update msg m =
 
                 _ ->
                     ( m, Cmd.none )
+
+
+updateGameScreen msg model =
+    let
+        (Creep path distance) =
+            model.creep
+
+        nextCreep =
+            case msg of
+                Tick delta ->
+                    Creep path (distance + delta / 20)
+
+                _ ->
+                    model.creep
+
+        nextWizard =
+            case msg of
+                HireWizard ->
+                    True
+
+                _ ->
+                    model.wizard
+    in
+    ( GameScreen { model | creep = nextCreep, wizard = nextWizard }, Cmd.none )
 
 
 type Creep
