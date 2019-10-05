@@ -1,4 +1,6 @@
-module Geometry exposing (Distance, Path(..), Segment(..), getCoordinate, getLength)
+module Geometry exposing (Distance, Path(..), Segment(..), distance, getCoordinate, getLength)
+
+import Basics
 
 
 type alias Distance =
@@ -32,7 +34,7 @@ interpolate start end fraction =
     start + fraction * (end - start)
 
 
-getCoordinate (Path segment points) distance =
+getCoordinate (Path segment points) pathDistance =
     let
         (Segment start end) =
             segment
@@ -46,18 +48,22 @@ getCoordinate (Path segment points) distance =
         segmentLength =
             getLength segment
     in
-    case ( points, segmentLength >= distance ) of
+    case ( points, segmentLength >= pathDistance ) of
         ( _, True ) ->
             let
                 fraction =
-                    distance / segmentLength
+                    pathDistance / segmentLength
             in
             ( interpolate startX endX fraction
             , interpolate startY endY fraction
             )
 
         ( point :: rest, _ ) ->
-            getCoordinate (Path (Segment end point) rest) (distance - segmentLength)
+            getCoordinate (Path (Segment end point) rest) (pathDistance - segmentLength)
 
         ( _, _ ) ->
             end
+
+
+distance ( x1, y1 ) ( x2, y2 ) =
+    sqrt <| (x2 - x1) ^ 2 + (y2 - y1) ^ 2
