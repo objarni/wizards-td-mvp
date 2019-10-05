@@ -83,10 +83,24 @@ updateCreep delta (Creep path distance) =
 
 updateGameScreen msg model =
     let
+        hitByWizard hasWizard (Creep path pathDistance) =
+            let
+                creepPos =
+                    getCoordinate path pathDistance
+
+                wizardPos =
+                    towerCoordinate Center
+            in
+            if distance creepPos wizardPos < 300 then
+                hasWizard
+
+            else
+                False
+
         nextCreeps =
             case msg of
                 Tick delta ->
-                    List.map (updateCreep delta) model.creeps
+                    List.map (updateCreep delta) <| List.filter (not << hitByWizard model.wizard) model.creeps
 
                 _ ->
                     model.creeps
