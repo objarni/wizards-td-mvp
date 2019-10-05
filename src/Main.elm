@@ -23,7 +23,7 @@ main =
 
 init : () -> ( Model { creep : Creep, wizard : Bool }, Cmd Msg )
 init () =
-    ( StartScreen, Cmd.none )
+    level1
 
 
 level1 =
