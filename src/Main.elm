@@ -21,7 +21,7 @@ main =
         }
 
 
-init : () -> ( Model { creep : Creep, wizard : Bool }, Cmd Msg )
+init : () -> ( Model { creeps : List Creep, wizard : Bool }, Cmd Msg )
 init () =
     level1
 
@@ -40,7 +40,7 @@ level1 =
         creep =
             Creep path 0
     in
-    ( GameScreen { creep = creep, wizard = False }, Cmd.none )
+    ( GameScreen { creeps = [ creep ], wizard = False }, Cmd.none )
 
 
 type Model a
@@ -77,18 +77,19 @@ update msg m =
                     ( m, Cmd.none )
 
 
+updateCreep delta (Creep path distance) =
+    Creep path (distance + delta / 20)
+
+
 updateGameScreen msg model =
     let
-        (Creep path distance) =
-            model.creep
-
-        nextCreep =
+        nextCreeps =
             case msg of
                 Tick delta ->
-                    Creep path (distance + delta / 20)
+                    List.map (updateCreep delta) model.creeps
 
                 _ ->
-                    model.creep
+                    model.creeps
 
         nextWizard =
             case msg of
@@ -98,7 +99,7 @@ updateGameScreen msg model =
                 _ ->
                     model.wizard
     in
-    ( GameScreen { model | creep = nextCreep, wizard = nextWizard }, Cmd.none )
+    ( GameScreen { model | creeps = nextCreeps, wizard = nextWizard }, Cmd.none )
 
 
 type Creep
@@ -190,7 +191,7 @@ type TowerPos
 
 view model =
     case model of
-        GameScreen { creep, wizard } ->
+        GameScreen { creeps, wizard } ->
             let
                 wizards =
                     wizardsView
@@ -201,8 +202,8 @@ view model =
                             []
                         )
 
-                creeps =
-                    creepsView [ creep ]
+                renderedCreeps =
+                    creepsView creeps
 
                 gui =
                     if wizard then
@@ -218,7 +219,7 @@ view model =
                 ]
                 ([ background ]
                     ++ wizards
-                    ++ creeps
+                    ++ renderedCreeps
                     ++ [ foreground ]
                     ++ gui
                 )
